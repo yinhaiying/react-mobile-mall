@@ -4,7 +4,9 @@
   "main": "server.js",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon ./server.js"
+    "start": "nodemon ./server.js",
+    "seed:insert": "node seeder.js",
+    "seed:remove": "node seeder.js -rm"
   },
   "type": "module",
   "dependencies": {

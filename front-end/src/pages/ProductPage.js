@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from "axios";
 import {
   Row,
   Col,
@@ -10,9 +11,15 @@ import {
 } from 'react-bootstrap';
 import Rating from "../components/Rating.js";
 import { Link } from "react-router-dom";
-import products from "../data/products.js";
 function ProductPage({ match }) {
-  const product = products.find((product) => product._id === match.params.id)
+  const [product, setProduct] = useState({});
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data } = await axios.get(`/api/products/${match.params.id}`)
+      setProduct(data);
+    };
+    fetchData();
+  }, [match])
   return (
     <>
       <Link to="/" className="btn btn-dark my-3">返回主页</Link>
@@ -26,10 +33,12 @@ function ProductPage({ match }) {
               <h3>{product.name}</h3>
             </ListGroup.Item>
             <ListGroup.Item>
-              <Rating
-                value={product.rating}
-                text={`${product.numReviews}条评论`}
-              />
+              {
+                product.rating && <Rating
+                  value={product.rating}
+                  text={`${product.numReviews}条评论`}
+                />
+              }
             </ListGroup.Item>
             <ListGroup.Item>价格：¥{product.price}</ListGroup.Item>
             <ListGroup.Item>描述：¥{product.description}</ListGroup.Item>

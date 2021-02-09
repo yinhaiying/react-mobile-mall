@@ -1,6 +1,5 @@
 const products = [
   {
-    _id: '1',
     name: '苹果12 mini 64G',
     image: 'https://tse2-mm.cn.bing.net/th/id/OIP.bB0cY5V2DouTSQKyRv4fXwHaFp?w=211&h=180&c=7&o=5&dpr=1.25&pid=1.7',
     description:
@@ -13,7 +12,6 @@ const products = [
     numReviews: 5,
   },
   {
-    _id: '2',
     name: '苹果 12  128G',
     image: 'https://tse2-mm.cn.bing.net/th/id/OIP.bB0cY5V2DouTSQKyRv4fXwHaFp?w=211&h=180&c=7&o=5&dpr=1.25&pid=1.7',
     description:
@@ -26,7 +24,6 @@ const products = [
     numReviews: 5,
   },
   {
-    _id: '3',
     name: '苹果12 Pro 128G',
     image: 'https://tse2-mm.cn.bing.net/th/id/OIP.bB0cY5V2DouTSQKyRv4fXwHaFp?w=211&h=180&c=7&o=5&dpr=1.25&pid=1.7',
     description:
@@ -39,7 +36,6 @@ const products = [
     numReviews: 8,
   },
   {
-    _id: '4',
     name: '苹果12 Pro Max 128G',
     image: 'https://tse2-mm.cn.bing.net/th/id/OIP.bB0cY5V2DouTSQKyRv4fXwHaFp?w=211&h=180&c=7&o=5&dpr=1.25&pid=1.7',
     description:
@@ -52,7 +48,6 @@ const products = [
     numReviews: 5,
   },
   {
-    _id: '5',
     name: '华为 Mate 40 Pro',
     image: 'https://tse2-mm.cn.bing.net/th/id/OIP.bB0cY5V2DouTSQKyRv4fXwHaFp?w=211&h=180&c=7&o=5&dpr=1.25&pid=1.7',
     description:
@@ -65,7 +60,6 @@ const products = [
     numReviews: 10,
   },
   {
-    _id: '6',
     name: '华为 P40 Pro',
     image: 'https://tse2-mm.cn.bing.net/th/id/OIP.bB0cY5V2DouTSQKyRv4fXwHaFp?w=211&h=180&c=7&o=5&dpr=1.25&pid=1.7',
     description:
@@ -78,7 +72,6 @@ const products = [
     numReviews: 7,
   },
   {
-    _id: '7',
     name: 'OnePlus 8T',
     image: 'https://tse2-mm.cn.bing.net/th/id/OIP.bB0cY5V2DouTSQKyRv4fXwHaFp?w=211&h=180&c=7&o=5&dpr=1.25&pid=1.7',
     description:
@@ -91,7 +84,6 @@ const products = [
     numReviews: 10,
   },
   {
-    _id: '8',
     name: '小米 10 至尊 纪念版',
     image: 'https://tse2-mm.cn.bing.net/th/id/OIP.bB0cY5V2DouTSQKyRv4fXwHaFp?w=211&h=180&c=7&o=5&dpr=1.25&pid=1.7',
     description:
@@ -104,7 +96,6 @@ const products = [
     numReviews: 12,
   },
   {
-    _id: '9',
     name: 'vivo NEX 3S',
     image: 'https://tse2-mm.cn.bing.net/th/id/OIP.bB0cY5V2DouTSQKyRv4fXwHaFp?w=211&h=180&c=7&o=5&dpr=1.25&pid=1.7',
     description:
@@ -117,7 +108,6 @@ const products = [
     numReviews: 9,
   },
   {
-    _id: '10',
     name: 'OPPO Find X2 ',
     image: 'https://tse2-mm.cn.bing.net/th/id/OIP.bB0cY5V2DouTSQKyRv4fXwHaFp?w=211&h=180&c=7&o=5&dpr=1.25&pid=1.7',
     description:

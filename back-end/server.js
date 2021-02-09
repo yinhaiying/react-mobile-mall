@@ -5,24 +5,28 @@ import colors from "colors";
 
 import products from "./data/products.js";
 import connectDB from "./config/db.js";
+import productsRoutes from "./routes/products.js";
+
 const app = express();
 dotenv.config();
 connectDB();
 
 
+
 app.get("/", (req, res) => {
   res.send("hello")
 })
-app.get("/api/products", (req, res) => {
-  res.json(products)
-})
-app.get("/api/products/:id", (req, res) => {
-  const product = products.find((product) => product._id === req.params.id);
-  res.json(product)
-})
+
+
+
+
+app.use("/api/products", productsRoutes)
+
+
+
+
 
 const PORT = process.env.PORT || 3000;
-
 app.listen(PORT, () => {
-  console.log(`${PORT}端口正在运行`.red);
+  console.log(`${PORT}端口正在运行`.yellow);
 })

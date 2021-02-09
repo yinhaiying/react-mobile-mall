@@ -8,3 +8,15 @@ main {
   fill: currentColor;
   overflow: hidden;
 }
+
+.rating-wrapper {
+  display: flex;
+  align-items: center;
+}
+.rating-wrapper .rating {
+  margin: 0.1rem;
+}
+
+h3 {
+  padding: 1rem 0;
+}

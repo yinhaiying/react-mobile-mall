@@ -1,5 +1,6 @@
 import React from 'react'
 import { Card } from "react-bootstrap";
+import Rating from "./Rating.js";
 function Product({ product }) {
   return (
     <>
@@ -11,7 +12,7 @@ function Product({ product }) {
           <a href={`/product/${product._id}`}></a>
           <Card.Title>{product.name}</Card.Title>
           <Card.Text as="div">
-            <div>评分</div>
+            <Rating value={product.rating} text={`${product.numReviews}条评论`}></Rating>
           </Card.Text>
           <Card.Text as="h3">￥{product.price}</Card.Text>
         </Card.Body>

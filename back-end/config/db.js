@@ -7,9 +7,9 @@ const connectDB = async () => {
       useNewUrlParser: true,
       useCreateIndex: true
     });
-    console.log(`mongoodb已经连接:${connection.connection.host}`)
+    console.log(`mongoodb已经连接:${connection.connection.host}`.underline.green)
   } catch (error) {
-    console.log(error.message);
+    console.log(error.message.underline.red);
     process.exit(1);
   }
 }

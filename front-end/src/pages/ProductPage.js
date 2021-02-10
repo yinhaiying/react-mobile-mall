@@ -15,7 +15,7 @@ import {
 import Rating from "../components/Rating.js";
 import { Link } from "react-router-dom";
 function ProductPage({ history, match }) {
-  const [quality, setQuality] = useState(1);
+  const [quantity, setQuantity] = useState(1);
 
 
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ function ProductPage({ history, match }) {
   const { loading, product, error } = useSelector((state) => state.productDetails);
 
   const addToCart = () => {
-    history.push(`/cart/${match.params.id}?quality=${quality}`)
+    history.push(`/cart/${match.params.id}?quantity=${quantity}`)
   }
 
   return (
@@ -76,7 +76,7 @@ function ProductPage({ history, match }) {
                       <Row>
                         <Col>数量：</Col>
                         <Col>
-                          <Form.Control as="select" value={quality} onChange={(e) => setQuality(e.target.value)}>
+                          <Form.Control as="select" value={quantity} onChange={(e) => setQuantity(e.target.value)}>
                             {
                               [...Array(product.countInStock).keys()].map((i) => (<option key={i + 1} value={i + 1}>{i + 1}</option>))
                             }

@@ -28,10 +28,12 @@ router.get("/:id", expressAsyncHandler(async (req, res) => {
     if (product) {
       res.json(product);
     } else {
-      res.status(404).json({ message: "产品不存在" })
+      res.status(404);
+      throw new Error("产品不存在");
     }
   } else {
-    res.status(404).json({ message: "产品不存在" })
+    res.status(404);
+    throw new Error("产品不存在")
   }
 }));
 

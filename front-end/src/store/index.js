@@ -2,8 +2,12 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 
+import { productListReducer } from "./reducers/productReducers.js"
 
-const reducers = combineReducers({});  // 把所有的操作state的reducer合并
+// 把所有的操作state的reducer合并
+const reducers = combineReducers({
+  productList: productListReducer
+});
 
 const initialState = {};
 

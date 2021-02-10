@@ -1,4 +1,4 @@
-import React, { useEffect, } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { listProductDetails } from "../store/actions/productActions.js";
 import Loading from "../components/Loading.js"
@@ -10,16 +10,24 @@ import {
   ListGroup,
   Card,
   Button,
-  ListGroupItem,
+  Form
 } from 'react-bootstrap';
 import Rating from "../components/Rating.js";
 import { Link } from "react-router-dom";
-function ProductPage({ match }) {
+function ProductPage({ history, match }) {
+  const [quality, setQuality] = useState(1);
+
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(listProductDetails(match.params.id))
   }, [dispatch, match]);
   const { loading, product, error } = useSelector((state) => state.productDetails);
+
+  const addToCart = () => {
+    history.push(`/cart/${match.params.id}?quality=${quality}`)
+  }
+
   return (
     <>
       <Link to="/" className="btn btn-dark my-3">返回主页</Link>
@@ -65,10 +73,23 @@ function ProductPage({ match }) {
                       </Row>
                     </ListGroup.Item>
                     <ListGroup.Item>
+                      <Row>
+                        <Col>数量：</Col>
+                        <Col>
+                          <Form.Control as="select" value={quality} onChange={(e) => setQuality(e.target.value)}>
+                            {
+                              [...Array(product.countInStock).keys()].map((i) => (<option key={i + 1} value={i + 1}>{i + 1}</option>))
+                            }
+                          </Form.Control>
+                        </Col>
+                      </Row>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
                       <Button
                         className='btn-block'
                         type='button'
                         disabled={product.countInStock === 0}
+                        onClick={addToCart}
                       >
                         添加到购物车
                   </Button>

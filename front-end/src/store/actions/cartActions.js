@@ -2,7 +2,11 @@ import axios from "axios";
 
 import { CART_ADD_ITEM, CART_REMOVE_ITEM } from "../constant/cartConstant.js";
 
+/*
+从购物车添加产品action
 
+
+*/
 export const addToCart = (id, quantity) => async (dispatch, getState) => {
   try {
     const { data } = await axios.get(`/api/products/${id}`);
@@ -20,6 +24,24 @@ export const addToCart = (id, quantity) => async (dispatch, getState) => {
     });
     localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems))
   } catch (error) {
+    throw new Error(error);
+  }
+}
 
+
+/*
+从购物车删除产品action
+
+*/
+
+export const removeFromCart = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: CART_REMOVE_ITEM,
+      payload: id
+    });
+    localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems))
+  } catch (error) {
+    throw new Error(error);
   }
 }

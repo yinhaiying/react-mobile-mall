@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../store/actions/cartActions.js";
+import { addToCart, removeFromCart } from "../store/actions/cartActions.js";
 import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap';
 import Message from '../components/Message'
 const CartPage = ({ match, location, history }) => {
@@ -18,7 +18,7 @@ const CartPage = ({ match, location, history }) => {
   const { cartItems } = useSelector((state) => state.cart);
   //购物车移除产品
   const removerFromCartHandler = (id) => {
-    console.log("删除");
+    dispatch(removeFromCart(id))
   }
   //支付函数
   const checkoutHandler = () => {

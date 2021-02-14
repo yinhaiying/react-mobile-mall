@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 import expressAsyncHandler from "express-async-handler"
 import User from "../models/userModel.js";
 import { generateToken } from "../utils/generateToken.js";
-
+import bcrypt from "bcryptjs"
+const salt = bcrypt.genSaltSync(10);
 /*
 @desc:    用户身份验证
 @route:   POST /api/users/login
@@ -52,10 +53,38 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
 
 })
 
-
+/*
+@desc:    用户注册
+@route:   POST /api/users/register
+@access:  public
+*/
+const registerUser = expressAsyncHandler(async (req, res) => {
+  const { name, email, password } = req.body;
+  const user = await User.findOne({ email })
+  if (user) {
+    res.status(400);
+    throw new Error("邮箱已注册");
+  }
+  const newUser = await User.create({ name, email, password })
+  if (newUser) {
+    res.status(201);
+    const { _id: id, name, email, isAdmin } = newUser;
+    res.json({
+      id,
+      name,
+      email,
+      isAdmin,
+      token: generateToken(id)
+    })
+  } else {
+    res.status(400);
+    throw new Error("用户注册失败");
+  }
+})
 
 
 export {
   authUser,
-  getUserProfile
+  getUserProfile,
+  registerUser
 }

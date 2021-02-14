@@ -2,7 +2,7 @@
 import mongoose from "mongoose";
 import expressAsyncHandler from "express-async-handler"
 import User from "../models/userModel.js";
-
+import { generateToken } from "../utils/generateToken.js";
 
 /*
 @desc:    用户身份验证
@@ -13,12 +13,13 @@ const authUser = expressAsyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (user && user.matchPassword(password)) {
+    const { _id: id, name, email, isAdmin } = user;
     res.json({
-      id: user._id,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin,
-      token: null
+      id,
+      name,
+      email,
+      isAdmin,
+      token: generateToken(id)
     })
   } else {
     res.status(401);

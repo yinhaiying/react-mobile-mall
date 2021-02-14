@@ -2,21 +2,28 @@
 import express from "express";
 import dotenv from "dotenv";
 import colors from "colors";
+import bodyParser from "body-parser";
+
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
-import products from "./data/products.js";
 import connectDB from "./config/db.js";
 import productsRoutes from "./routes/products.js";
+import usersRoutes from "./routes/users.js";
 
 const app = express();
 dotenv.config();
 connectDB();
 
+// 解析application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+// parse application/json
+app.use(bodyParser.json())
 
 
 app.get("/", (req, res) => {
   res.send("hello")
 })
-app.use("/api/products", productsRoutes)
+app.use("/api/products", productsRoutes);
+app.use("/api/users", usersRoutes);
 
 // 到这里还没有匹配上，说明没有找到资源，因此是404，手动抛出404错误，
 app.use(notFound);

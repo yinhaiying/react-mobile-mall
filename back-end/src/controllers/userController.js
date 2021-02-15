@@ -13,7 +13,7 @@ const salt = bcrypt.genSaltSync(10);
 const authUser = expressAsyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
-  if (user && user.matchPassword(password)) {
+  if (user && await user.matchPassword(password)) {
     const { _id: id, name, email, isAdmin } = user;
     res.json({
       id,
@@ -83,8 +83,41 @@ const registerUser = expressAsyncHandler(async (req, res) => {
 })
 
 
+
+/*
+@desc:    更改用户信息
+@route:   PUT /api/users/profile
+@access:  private 只有登陆成功之后的用户自己才能获取信息
+*/
+const updateUserProfile = expressAsyncHandler(async (req, res) => {
+  console.log("req:", req.user)
+  const user = await User.findById(req.user._id);
+  if (user) {
+    user.name = req.body.name ? req.body.name : user.name;
+    user.email = req.body.email ? req.body.email : user.email;
+    if (req.body.password) {
+      user.password = req.body.password;
+    }
+    const updatedUser = await user.save();
+    const { _id: id, name, email, isAdmin } = updatedUser;
+    res.json({
+      id,
+      name,
+      email,
+      isAdmin,
+      token: generateToken(id)
+    })
+  } else {
+    res.status(404);
+    throw new Error("用户不存在")
+  }
+
+})
+
+
 export {
   authUser,
   getUserProfile,
-  registerUser
+  registerUser,
+  updateUserProfile
 }

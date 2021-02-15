@@ -1,6 +1,6 @@
 import express from "express";
 
-import { authUser, getUserProfile, registerUser } from "../controllers/userController.js";
+import { authUser, getUserProfile, registerUser, updateUserProfile } from "../controllers/userController.js";
 import { protect } from "../middleware/authTokenMiddleware.js";
 const router = express.Router();
 
@@ -15,8 +15,10 @@ router.route("/login").post(authUser);
 
 
 
-// 获取用户详情
-router.route("/profile").get(protect, getUserProfile);
+// 获取用户详情,更新用户信息
+router.route("/profile")
+  .get(protect, getUserProfile)
+  .put(protect, updateUserProfile)
 
 
 

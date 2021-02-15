@@ -41,7 +41,7 @@ userSchema.pre("save", async function (next) {
 // 实现用户密码匹配
 userSchema.methods.matchPassword = async function (enteredPassword) {
   // 将前端获取的密码与数据库的密码进行匹配。
-  return await bcrypt.compare(enteredPassword, this.password)
+  return await bcrypt.compare(enteredPassword, this.password);
 }
 
 

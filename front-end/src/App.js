@@ -8,6 +8,7 @@ import { Container } from "react-bootstrap";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage.js";
 import RegisterPage from "./pages/RegisterPage.js";
+import ProfilePage from "./pages/ProfilePage.js";
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
       <Header></Header>
       <main className="py-3">
         <Container>
+          <Route path="/profile" component={ProfilePage} />
           <Route path="/login" component={LoginPage}></Route>
           <Route path="/register" component={RegisterPage}></Route>
           <Route path="/products/:id" component={ProductPage} />

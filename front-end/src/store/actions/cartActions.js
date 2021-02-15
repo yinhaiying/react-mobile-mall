@@ -1,6 +1,11 @@
 import axios from "axios";
 
-import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_SHIPPING_ADDRESS } from "../constant/cartConstant.js";
+import {
+  CART_ADD_ITEM,
+  CART_REMOVE_ITEM,
+  CART_SAVE_SHIPPING_ADDRESS,
+  CART_SAVE_PAYMENT_METHOD
+} from "../constant/cartConstant.js";
 
 /*
 从购物车添加产品action
@@ -55,6 +60,20 @@ export const saveShippingAddress = (data) => async (dispatch) => {
       payload: data
     });
     localStorage.setItem("shippingAddress", JSON.stringify(data))
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+
+// 保存支付方式
+export const savePaymentMethod = (data) => async (dispatch) => {
+  try {
+    dispatch({
+      type: CART_SAVE_PAYMENT_METHOD,
+      payload: data
+    });
+    localStorage.setItem("paymentMethod", JSON.stringify(data))
   } catch (error) {
     throw new Error(error);
   }

@@ -7,6 +7,6 @@ const router = express.Router();
 
 
 // 用户注册
-router.route("/register").post(protect, addOrderItems);
+router.route("/").post(protect, addOrderItems);
 
 export default router;

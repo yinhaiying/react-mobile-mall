@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Form, Button, ListGroup, Row, Col, Image, Card } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
+import { createOrder } from "../store/actions/orderActions"
+import Message from '../components/Message';
 
-import Message from '../components/Message'
+const SubmitOrderPage = ({ history }) => {
+  const dispatch = useDispatch();
 
-const OrderListPage = ({ history }) => {
-  const dispatch = useDispatch()
+
+  // 商品价格计算
   const cart = useSelector((state) => state.cart)
-
   //计算价格
   const addDecimals = (num) => {
     return (Math.round(num * 100) / 100).toFixed(2)
@@ -16,19 +18,38 @@ const OrderListPage = ({ history }) => {
   cart.itemsPrice = addDecimals(
     cart.cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
   )
-
   cart.shippingPrice = addDecimals(cart.itemsPrice > 5000 ? 0 : 20)
-
   cart.totalPrice = addDecimals(
     Number(cart.itemsPrice) + Number(cart.shippingPrice)
   )
 
+
+  // 订单相关的信息
+  // 获取订单信息
+  const { order, success, error } = useSelector(state => state.orderCreate);
+
+  // 如果提交成功了，那么可以重定向
+  useEffect(() => {
+    if (success) {
+      history.push(`order/${order._id}`)
+    }
+  }, [success, history])
+
   //提交订单函数
   const placeorderHandler = () => {
-    console.log("提交订单")
+    dispatch(createOrder({
+      orderItems: cart.cartItems,
+      shippingAddress: cart.shippingAddress,
+      paymentMethod: cart.paymentMethod,
+      itemsPrice: cart.itemsPrice,
+      shippingPrice: cart.shippingPrice,
+      totalPrice: cart.totalPrice
+    }))
   }
   return (
     <>
+      {error && <Message variant="danger">{error}</Message>}
+      {success && <Message variant="success">订单提交成功</Message>}
       <Row>
         <Col md={8}>
           <ListGroup variant='flush'>
@@ -126,4 +147,4 @@ const OrderListPage = ({ history }) => {
   )
 }
 
-export default OrderListPage
+export default SubmitOrderPage

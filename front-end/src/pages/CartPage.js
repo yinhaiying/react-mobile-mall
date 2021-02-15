@@ -82,9 +82,9 @@ const CartPage = ({ match, location, history }) => {
           <ListGroup variant='flush'>
             <ListGroup.Item>
               <h2>
-                已选择<span style={{ color: "#e2231a", "font-weight": "bold", padding: "0 4px" }}>{cartItems.reduce((acc, item) => acc + item.quantity, 0)}</span>件商品
+                已选择<span style={{ color: "#e2231a", "fontWeight": "bold", padding: "0 4px" }}>{cartItems.reduce((acc, item) => acc + item.quantity, 0)}</span>件商品
               </h2>
-              <span style={{ color: "#e2231a", "font-weight": "bold", "font-size": "16px" }}> ¥{cartItems.reduce((acc, item) => acc + item.quantity * item.price, 0)}</span>
+              <span style={{ color: "#e2231a", "fontWeight": "bold", "fontSize": "16px" }}> ¥{cartItems.reduce((acc, item) => acc + item.quantity * item.price, 0)}</span>
             </ListGroup.Item>
             <ListGroup.Item>
               <Button

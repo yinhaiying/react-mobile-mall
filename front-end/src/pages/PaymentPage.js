@@ -13,7 +13,7 @@ const PaymentPage = ({ history }) => {
   const [paymentMethod, setPaymentMethod] = useState("微信");
   const onSubmit = () => {
     dispatch(savePaymentMethod(paymentMethod));
-    history.push("/placeorder");
+    history.push("/orderlist");
   }
   return (
     <FormContainer>

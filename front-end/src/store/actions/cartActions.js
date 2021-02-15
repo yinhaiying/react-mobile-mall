@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { CART_ADD_ITEM, CART_REMOVE_ITEM } from "../constant/cartConstant.js";
+import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_SHIPPING_ADDRESS } from "../constant/cartConstant.js";
 
 /*
 从购物车添加产品action
@@ -41,6 +41,20 @@ export const removeFromCart = (id) => async (dispatch, getState) => {
       payload: id
     });
     localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems))
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+
+// 保存收货地址
+export const saveShippingAddress = (data) => async (dispatch) => {
+  try {
+    dispatch({
+      type: CART_SAVE_SHIPPING_ADDRESS,
+      payload: data
+    });
+    localStorage.setItem("shippingAddress", JSON.stringify(data))
   } catch (error) {
     throw new Error(error);
   }

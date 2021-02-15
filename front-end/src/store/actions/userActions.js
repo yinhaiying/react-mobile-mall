@@ -21,3 +21,12 @@ export const login = (email, password) => async (dispatch) => {
     })
   }
 }
+
+export const logout = () => async (dispatch) => {
+  try {
+    dispatch({ type: USER_LOGOUT });
+    localStorage.removeItem("userInfo")
+  } catch (error) {
+    console.log("error:", error)
+  }
+}

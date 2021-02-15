@@ -1,7 +1,17 @@
 import React from 'react';
 import { LinkContainer } from "react-router-bootstrap";
-import { Navbar, Nav, Container } from "react-bootstrap"
+import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap"
+import { logout } from "../store/actions/userActions.js";
+import { useDispatch, useSelector } from "react-redux";
+
 const Header = () => {
+  const dispatch = useDispatch();
+  // 通过useSelector去拿到用户信息
+  const { userInfo } = useSelector((state) => state.userLogin);
+
+  const onLogout = () => {
+    dispatch(logout())
+  }
   return (
     <header>
       <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
@@ -19,19 +29,35 @@ const Header = () => {
                   </svg>
                 购物车</Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/login">
-                <Nav.Link>
-                  <svg className="icon" aria-hidden="true">
-                    <use xlinkHref="#icon-person"></use>
-                  </svg>
+
+              {
+                userInfo ? (
+                  <NavDropdown title={userInfo.name} id="dropdown">
+
+                    <LinkContainer to="/profile">
+                      <NavDropdown.Item >
+                        个人信息
+                      </NavDropdown.Item>
+                    </LinkContainer>
+                    <NavDropdown.Item onClick={onLogout}>
+                      退出登陆
+                      </NavDropdown.Item>
+                  </NavDropdown>) :
+                  (<LinkContainer to="/login">
+                    <Nav.Link>
+                      <svg className="icon" aria-hidden="true">
+                        <use xlinkHref="#icon-person"></use>
+                      </svg>
                 登录</Nav.Link>
-              </LinkContainer>
+                  </LinkContainer>)
+              }
+
 
             </Nav>
           </Navbar.Collapse>
 
         </Container>
-      </Navbar>
+      </Navbar >
     </header >
   )
 }

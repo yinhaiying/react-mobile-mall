@@ -8,6 +8,7 @@ import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import connectDB from "./config/db.js";
 import productsRoutes from "./routes/products.js";
 import usersRoutes from "./routes/users.js";
+import ordersRoutes from "./routes/orders.js";
 
 const app = express();
 dotenv.config();
@@ -24,6 +25,7 @@ app.get("/", (req, res) => {
 })
 app.use("/api/products", productsRoutes);
 app.use("/api/users", usersRoutes);
+app.use("/api/orders", ordersRoutes);
 
 // 到这里还没有匹配上，说明没有找到资源，因此是404，手动抛出404错误，
 app.use(notFound);

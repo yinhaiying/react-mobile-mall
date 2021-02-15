@@ -7,6 +7,7 @@ import CartPage from "./pages/CartPage.js"
 import { Container } from "react-bootstrap";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage.js";
+import RegisterPage from "./pages/RegisterPage.js";
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
       <main className="py-3">
         <Container>
           <Route path="/login" component={LoginPage}></Route>
+          <Route path="/register" component={RegisterPage}></Route>
           <Route path="/products/:id" component={ProductPage} />
           <Route path="/cart/:id?" component={CartPage} />
           <Route path="/" component={Home} exact />

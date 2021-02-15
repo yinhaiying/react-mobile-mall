@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Message from "../components/Message.js";
 import Loading from "../components/Loading.js"
-import { getUserDetails } from "../store/actions/userActions.js"
+import { getUserDetails, updateUserProfile } from "../store/actions/userActions.js"
 
 import FormContainer from "../components/FormContainer.js";
 
@@ -22,10 +22,12 @@ const ProfilePage = ({ location, history }) => {
   const { loading, user, error } = useSelector(state => state.userDetails);
   // 获取用户登录成功之后的状态 必须是用户登陆之后才能获取用户个人信息
   const { userInfo } = useSelector(state => state.userLogin);
+  const { success } = useSelector(state => state.userUpdateProfile);
 
   // 更新用户资料
   const onSubmit = (e) => {
     e.preventDefault();
+    dispatch(updateUserProfile({ id: user.is, name, email, password }));
   }
 
   // 获取到用户信息之后进行重定向
@@ -47,6 +49,7 @@ const ProfilePage = ({ location, history }) => {
       <Col md={3}>
         {errorMessage && <Message variant="danger">{errorMessage}</Message>}
         {error && <Message variant="danger">{error}</Message>}
+        {success && <Message variant="success">更新成功</Message>}
         <h2>个人资料</h2>
         <Form>
           <Form.Group controlId="name">

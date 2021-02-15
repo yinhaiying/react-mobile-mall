@@ -9,7 +9,11 @@ import {
   USER_REGISTER_FAIL,
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
-  USER_DETAILS_FAIL
+  USER_DETAILS_FAIL,
+  USER_DETAILS_EMPTY,
+  USER_UPDATE_PROFILE_REQUEST,
+  USER_UPDATE_PROFILE_SUCCESS,
+  USER_UPDATE_PROFILE_FAIL
 
 } from "../constant/userConstant.js";
 import { api_users_login, api_users_register, api_users_profile } from "../../api/users.js"
@@ -55,6 +59,7 @@ export const login = (email, password) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
   try {
     dispatch({ type: USER_LOGOUT });
+    dispatch({ type: USER_DETAILS_EMPTY });
     localStorage.removeItem("userInfo")
   } catch (error) {
     console.log("error:", error)
@@ -80,6 +85,33 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: USER_DETAILS_FAIL, payload: error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    })
+  }
+}
+
+
+// 更新用户信息 action
+export const updateUserProfile = (user) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: USER_UPDATE_PROFILE_REQUEST });
+    // 在action中获取state需要依赖getState
+    const { userLogin: { userInfo } } = getState();
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    const { data } = await axios.put(`api/users/profile`, user, config);
+    dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, payload: data });
+    // 更新之后，也需要更新获取用户信息的接口，否则store中数据不会更新。
+    dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
+    localStorage.setItem("userInfo", JSON.stringify(data));
+  } catch (error) {
+    dispatch({
+      type: USER_UPDATE_PROFILE_FAIL, payload: error.response && error.response.data.message
         ? error.response.data.message
         : error.message,
     })

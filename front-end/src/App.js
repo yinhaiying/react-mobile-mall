@@ -6,6 +6,7 @@ import ProductPage from "./pages/ProductPage.js"
 import CartPage from "./pages/CartPage.js"
 import { Container } from "react-bootstrap";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import LoginPage from "./pages/LoginPage.js";
 
 
 function App() {
@@ -14,9 +15,10 @@ function App() {
       <Header></Header>
       <main className="py-3">
         <Container>
-          <Route path="/" component={Home} exact />
+          <Route path="/login" component={LoginPage}></Route>
           <Route path="/products/:id" component={ProductPage} />
           <Route path="/cart/:id?" component={CartPage} />
+          <Route path="/" component={Home} exact />
         </Container>
       </main>
       <Footer></Footer>

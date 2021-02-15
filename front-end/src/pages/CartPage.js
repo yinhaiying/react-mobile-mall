@@ -27,7 +27,7 @@ const CartPage = ({ match, location, history }) => {
   return (
     <Row>
       <Col md={8}>
-        <h1>购物车</h1>
+        <h2>全部商品</h2>
         {cartItems.length === 0 ? (
           <Message>
             购物为空<Link to='/'>返回主页</Link>
@@ -82,9 +82,9 @@ const CartPage = ({ match, location, history }) => {
           <ListGroup variant='flush'>
             <ListGroup.Item>
               <h2>
-                共计({cartItems.reduce((acc, item) => acc + item.quantity, 0)})个产品
+                已选择<span style={{ color: "#e2231a", "font-weight": "bold", padding: "0 4px" }}>{cartItems.reduce((acc, item) => acc + item.quantity, 0)}</span>件商品
               </h2>
-              ¥{cartItems.reduce((acc, item) => acc + item.quantity * item.price, 0)}
+              <span style={{ color: "#e2231a", "font-weight": "bold", "font-size": "16px" }}> ¥{cartItems.reduce((acc, item) => acc + item.quantity * item.price, 0)}</span>
             </ListGroup.Item>
             <ListGroup.Item>
               <Button

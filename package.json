@@ -4,10 +4,11 @@
   "main": "server.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon ./src/server.js",
-    "start": "node src/server.js",
-    "seed:insert": "node ./src/seeder.js",
-    "seed:remove": "node ./src/seeder.js -rm"
+    "dev": "nodemon back-end//src/server.js",
+    "start": "node back-end/src/server.js",
+    "seed:insert": "node back-end/src/seeder.js",
+    "seed:remove": "node back-end/src/seeder.js -rm",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install --prefix front-end && yarn build --prefix front-end"
   },
   "type": "module",
   "dependencies": {

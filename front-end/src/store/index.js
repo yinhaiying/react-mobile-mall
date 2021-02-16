@@ -13,7 +13,7 @@ import {
 } from "./reducers/userReducers.js";
 
 
-import { orderCreateReducer } from "./reducers/orderReducers.js";
+import { orderCreateReducer, orderDetailsReducer } from "./reducers/orderReducers.js";
 
 // 把所有的操作state的reducer合并
 const reducers = combineReducers({
@@ -24,7 +24,8 @@ const reducers = combineReducers({
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
   userUpdateProfile: userUpdateProfileReducer,
-  orderCreate: orderCreateReducer
+  orderCreate: orderCreateReducer,
+  orderDetails: orderDetailsReducer
 });
 
 const cartItemsFromStorage = localStorage.getItem("cartItems") ? JSON.parse(localStorage.getItem("cartItems")) : []

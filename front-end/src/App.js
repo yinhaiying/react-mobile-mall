@@ -12,6 +12,7 @@ import ProfilePage from "./pages/ProfilePage.js";
 import ShippingPage from "./pages/ShippingPage.js";
 import PaymentPage from "./pages/PaymentPage.js";
 import SubmitOrderPage from "./pages/SubmitOrderPage.js";
+import OrderDetailsPage from "./pages/OrderDetailsPage.js";
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
       <main className="py-3">
         <Container>
           <Route path='/orderlist' component={SubmitOrderPage} />
+          <Route path='/order/:id' component={OrderDetailsPage} />
           <Route path="/profile" component={ProfilePage} />
           <Route path="/payment" component={PaymentPage} />
           <Route path="/shipping" component={ShippingPage} />

@@ -4,10 +4,10 @@
   "main": "server.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon back-end//src/server.js",
-    "start": "node back-end/src/server.js",
-    "seed:insert": "node back-end/src/seeder.js",
-    "seed:remove": "node back-end/src/seeder.js -rm",
+    "dev": "nodemon backend//src/server.js",
+    "start": "node backend/src/server.js",
+    "seed:insert": "node backend/src/seeder.js",
+    "seed:remove": "node backend/src/seeder.js -rm",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run install --prefix frontend && npm run build  frontend"
   },
   "type": "module",

@@ -8,7 +8,7 @@
     "start": "node back-end/src/server.js",
     "seed:insert": "node back-end/src/seeder.js",
     "seed:remove": "node back-end/src/seeder.js -rm",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install --prefix front-end && yarn build --prefix front-end"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install --prefix frontend && yarn build --prefix frontend"
   },
   "type": "module",
   "dependencies": {

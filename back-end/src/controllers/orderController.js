@@ -35,3 +35,20 @@ export const addOrderItems = expressAsyncHandler(async (req, res) => {
     res.status(201).json(createdOrder)
   }
 })
+
+/*
+@desc:    根据id获取订单
+@route:   GET /api/orders:id
+@access:  private
+*/
+export const getOrderById = expressAsyncHandler(async (req, res) => {
+  const id = req.params.id;
+  // 向订单信息中填充user信息内容
+  const order = await Order.findById(id).populate("user", "name email");
+  if (order) {
+    res.json(order);
+  } else {
+    res.json(404);
+    throw new Error("未查找到订单");
+  }
+})

@@ -1,12 +1,14 @@
 import express from "express";
 
-import { addOrderItems } from "../controllers/orderController.js";
+import { addOrderItems, getOrderById } from "../controllers/orderController.js";
 import { protect } from "../middleware/authTokenMiddleware.js";
 const router = express.Router();
 
 
 
-// 用户注册
-router.route("/").post(protect, addOrderItems);
+// 创建订单
+router.route("/").post(protect, addOrderItems)
+// 获取订单
+router.route("/:id").get(protect, getOrderById)
 
 export default router;

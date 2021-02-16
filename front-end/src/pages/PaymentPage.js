@@ -29,7 +29,6 @@ const PaymentPage = ({ history }) => {
               id='wechat'
               name='paymenMethod'
               value='微信'
-              checked
               onChange={(e) => setPaymentMethod(e.target.value)}
             ></Form.Check>
             <Form.Check
@@ -38,6 +37,15 @@ const PaymentPage = ({ history }) => {
               id='zhifubao'
               name='paymenMethod'
               value='支付宝'
+              onChange={(e) => setPaymentMethod(e.target.value)}
+            ></Form.Check>
+            <Form.Check
+              type='radio'
+              label='paypal'
+              id='paypal'
+              name='paymenMethod'
+              value='paypal'
+              checked
               onChange={(e) => setPaymentMethod(e.target.value)}
             ></Form.Check>
           </Col>

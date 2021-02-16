@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Form, Button, ListGroup, Row, Col, Image, Card } from 'react-bootstrap'
+import { Button, ListGroup, Row, Col, Image, Card, Modal } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { getOrderDetails } from '../store/actions/orderActions.js'
 import Message from '../components/Message.js'
 import Loading from '../components/Loading.js'
+import axios from 'axios'
+import { PayPalButton } from "react-paypal-button-v2";
+
 
 const OrderDetailsPage = ({ match }) => {
-  const orderId = match.params.id
+  const orderId = match.params.id;
+  const [show, setShow] = useState(false);
+  const [paymentQrcode, setPaymentQrcode] = useState("")
+  const [text, setText] = useState("请扫码");
+
+  // payment SDK的加载
+  const [paymentSDK, setPaymentSDK] = useState(false);
   const dispatch = useDispatch()
 
   const orderDetails = useSelector((state) => state.orderDetails)
@@ -21,11 +30,47 @@ const OrderDetailsPage = ({ match }) => {
       order.orderItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
     )
   }
+  //初始化时加载payment sdk
+  useEffect(() => {
+    const addPaypalScript = async () => {
+      if (!paymentSDK) {
+        const { data: clientId } = await axios.get("/api/payment/paypal");
+        // paypal支付需要插入js SDK
+        let script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
+        script.async = true;
+        script.onload = () => {
+          setPaymentSDK(true)
+        }
+        document.body.appendChild(script)
+      }
+    }
+    addPaypalScript();
+  }, []);
+
   useEffect(() => {
     if (!order || order._id !== orderId) {
       dispatch(getOrderDetails(orderId))
-    }
-  }, [order, orderId])
+    };
+  }, [order, orderId]);
+
+
+  const handleClose = () => {
+    setShow(false)
+  }
+  const handlePayment = () => {
+    setShow(true);
+    //获取微信返回的支付二维码图片
+    setPaymentQrcode(`https://www.thenewstep.cn/pay/index.php?pid=${order._id}`);
+  }
+
+  const handlePaypalSuccess = (details, data) => {
+    console.log("details:", details);
+    console.log("data:", data);
+  }
+
+
   return loading ? (
     <Loading />
   ) : error ? (
@@ -136,6 +181,59 @@ const OrderDetailsPage = ({ match }) => {
                       <Col>${order.totalPrice}</Col>
                     </Row>
                   </ListGroup.Item>
+                  {
+                    order.paymentMethod === "微信" && (
+                      <ListGroup.Item>
+                        <Button
+                          type='button'
+                          className='btn-block'
+                          onClick={handlePayment}
+                          disabled={order.orderItems.length === 0}
+                        >
+                          去支付
+                        </Button>
+                        <Modal show={show} onHide={handleClose}  >
+                          <Modal.Header closeButton>
+                            <Modal.Title>订单号：{order._id}</Modal.Title>
+                          </Modal.Header>
+                          <Modal.Body>
+                            <p>支付金额：{order.totalPrice}</p>
+                            <p>支付方式：{order.paymentMethod}</p>
+                            <Row>
+                              <Col md={6} style={{ textAlign: 'center' }}>
+                                <Image src={paymentQrcode} />
+                                <p
+                                  style={{
+                                    backgroundColor: '#00C800',
+                                    color: 'white',
+                                  }}
+                                >{text}
+                                </p>
+                              </Col>
+                              <Col>
+                                <Image src='https://ftp.bmp.ovh/imgs/2021/02/80d48a31a051b3b7.jpg' />
+                              </Col>
+                            </Row>
+                          </Modal.Body>
+                          <Modal.Footer>
+                            <Button variant="secondary" onClick={handleClose}>
+                              关闭
+                        </Button>
+                          </Modal.Footer>
+                        </Modal>
+                      </ListGroup.Item>
+                    )
+                  }
+                  {
+                    order.paymentMethod === "paypal" && (
+                      <ListGroup.Item>
+                        <PayPalButton
+                          amount="0.01"
+                          onSuccess={handlePaypalSuccess}
+                        />
+                      </ListGroup.Item>
+                    )
+                  }
                 </ListGroup>
               </Card>
             </Col>

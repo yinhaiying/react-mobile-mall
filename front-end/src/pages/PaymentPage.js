@@ -45,7 +45,6 @@ const PaymentPage = ({ history }) => {
               id='paypal'
               name='paymenMethod'
               value='paypal'
-              checked
               onChange={(e) => setPaymentMethod(e.target.value)}
             ></Form.Check>
           </Col>

@@ -2,25 +2,31 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, ListGroup, Row, Col, Image, Card, Modal } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { getOrderDetails } from '../store/actions/orderActions.js'
+import { getOrderDetails, payOrder } from '../store/actions/orderActions.js'
 import Message from '../components/Message.js'
 import Loading from '../components/Loading.js'
 import axios from 'axios'
 import { PayPalButton } from "react-paypal-button-v2";
-
-
-const OrderDetailsPage = ({ match }) => {
+import { ORDER_PAY_RESET } from "../store/constant/orderConstant.js";
+import { v4 as uuidv4 } from 'uuid';
+const OrderDetailsPage = ({ match, history }) => {
   const orderId = match.params.id;
   const [show, setShow] = useState(false);
   const [paymentQrcode, setPaymentQrcode] = useState("")
   const [text, setText] = useState("请扫码");
 
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin;
   // payment SDK的加载
   const [paymentSDK, setPaymentSDK] = useState(false);
   const dispatch = useDispatch()
 
   const orderDetails = useSelector((state) => state.orderDetails)
-  const { order, loading, error } = orderDetails
+  const { order, loading, error } = orderDetails;
+
+  const { success: successPay } = useSelector((state) => state.orderPay)
+
+
   // 计算价格
   if (!loading) {
     const addDecimals = (num) => {
@@ -31,6 +37,20 @@ const OrderDetailsPage = ({ match }) => {
     )
   }
   //初始化时加载payment sdk
+
+  useEffect(() => {
+    if (!userInfo) {
+      history.push("/login")
+    }
+  }, [history, userInfo])
+
+  useEffect(() => {
+    if (!order || order._id !== orderId || successPay) {
+      dispatch({ type: ORDER_PAY_RESET })
+      dispatch(getOrderDetails(orderId))
+    };
+  }, [order, orderId, successPay, dispatch]);
+
   useEffect(() => {
     const addPaypalScript = async () => {
       if (!paymentSDK) {
@@ -49,13 +69,6 @@ const OrderDetailsPage = ({ match }) => {
     addPaypalScript();
   }, []);
 
-  useEffect(() => {
-    if (!order || order._id !== orderId) {
-      dispatch(getOrderDetails(orderId))
-    };
-  }, [order, orderId]);
-
-
   const handleClose = () => {
     setShow(false)
   }
@@ -68,6 +81,14 @@ const OrderDetailsPage = ({ match }) => {
   const handlePaypalSuccess = (details, data) => {
     console.log("details:", details);
     console.log("data:", data);
+    const paymentResult = {
+      id: uuidv4(),
+      status: 2,
+      updata_time: Date.now(),
+      email_address: order.user.email,
+    }
+    //更新完成支付的订单
+    dispatch(payOrder(orderId, paymentResult))
   }
 
 
@@ -117,7 +138,7 @@ const OrderDetailsPage = ({ match }) => {
                     {order.paymentMethod}
                   </p>
                   {order.isPaid ? (
-                    <Message variant='success'>支付时间：{order.PaidAt}</Message>
+                    <Message variant='success'>支付时间：{order.paidAt}</Message>
                   ) : (
                       <Message variant='danger'>待支付</Message>
                     )}
@@ -228,7 +249,8 @@ const OrderDetailsPage = ({ match }) => {
                     order.paymentMethod === "paypal" && (
                       <ListGroup.Item>
                         <PayPalButton
-                          amount="0.01"
+                          amount={order.totalPrice}
+                          disabled={order.orderItems.length === 0}
                           onSuccess={handlePaypalSuccess}
                         />
                       </ListGroup.Item>

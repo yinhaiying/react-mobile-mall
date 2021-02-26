@@ -34,7 +34,6 @@ app.use("/api/payment", paymentRoutes);
 
 const __dirname = path.resolve();
 if (process.env.NODE_ENV === "production") {
-  console.log("path:", path.join(__dirname, "/frontend/build"))
   app.use(express.static(path.join(__dirname, "/frontend/build")));
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
@@ -52,7 +51,7 @@ app.use(notFound);
 // 错误处理必须放到最后
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`${PORT}端口正在运行`.yellow);
 })

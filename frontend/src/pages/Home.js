@@ -6,14 +6,18 @@ import { Row, Col } from "react-bootstrap";
 import Product from "../components/Product.js";
 import Loading from "../components/Loading.js"
 import Message from "../components/Message.js"
-const Home = () => {
+const Home = ({ match }) => {
+
+  const keyword = match.params.keyword;
+  console.log("keyword:", keyword)
+
   const dispatch = useDispatch();
   const productList = useSelector(state => state.productList);
   const { loading, error, products } = productList;
 
   useEffect(() => {
-    dispatch(listProducts())
-  }, [dispatch]);
+    dispatch(listProducts(keyword))
+  }, [dispatch, keyword]);
 
   return (
     <>

@@ -8,11 +8,17 @@ import Product from "../models/productModel.js";
 
 /*
 @desc:    请求所有的产品信息
-@route:   GET /api/products
+@route:   GET /api/products?keyword
 @access:  public
 */
 const getProducts = expressAsyncHandler(async (req, res) => {
-  const products = await Product.find({});
+  const keyword = req.query.keyword ? {
+    name: {
+      $regex: req.query.keyword,
+      $options: "i"
+    }
+  } : {};
+  const products = await Product.find({ ...keyword });
   res.json(products);
 })
 

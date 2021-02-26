@@ -5,7 +5,8 @@ import { listProducts } from "../store/actions/productActions.js";
 import { Row, Col } from "react-bootstrap";
 import Product from "../components/Product.js";
 import Loading from "../components/Loading.js"
-import Message from "../components/Message.js"
+import Message from "../components/Message.js";
+import ProductsCarousel from '../components/ProductsCarousel'
 const Home = ({ match }) => {
 
   const keyword = match.params.keyword;
@@ -21,6 +22,9 @@ const Home = ({ match }) => {
 
   return (
     <>
+      {
+        !keyword && <ProductsCarousel></ProductsCarousel>
+      }
       <h1>最新产品</h1>
       {
         loading ? (

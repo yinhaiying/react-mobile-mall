@@ -4,7 +4,10 @@ import {
   PRODUCT_LIST_FAIL,
   PRODUCT_DETAILS_REQUEST,
   PRODUCT_DETAILS_SUCCESS,
-  PRODUCT_DETAILS_FAIL
+  PRODUCT_DETAILS_FAIL,
+  PRODUCT_TOP_REQUEST,
+  PRODUCT_TOP_SUCCESS,
+  PRODUCT_TOP_FAIL
 } from "../constant/productConstant.js";
 
 /*
@@ -53,6 +56,31 @@ export const productDetailsReducer = (state = { product: {} }, action) => {
         product: action.payload
       }
     case PRODUCT_DETAILS_FAIL:
+      return {
+        loading: false,
+        error: action.payload
+      }
+    default:
+      return state
+  }
+}
+
+
+// 获取评分排名前三的产品
+export const productTopRatedReducer = (state = { products: [] }, action) => {
+  // reducre中通常需要根据action的类型来执行不同的操作:
+  switch (action.type) {
+    case PRODUCT_TOP_REQUEST:
+      return {
+        loading: true,
+        products: []
+      }
+    case PRODUCT_TOP_SUCCESS:
+      return {
+        loading: false,
+        products: action.payload
+      }
+    case PRODUCT_TOP_FAIL:
       return {
         loading: false,
         error: action.payload

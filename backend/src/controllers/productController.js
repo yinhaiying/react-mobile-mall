@@ -43,9 +43,18 @@ const getProductById = expressAsyncHandler(async (req, res) => {
     throw new Error("产品不存在")
   }
 })
-
+/*
+@desc:    获取轮播图的产品
+@route:   GET /api/products/top
+@access:  public
+*/
+const getTopProducts = expressAsyncHandler(async (req, res) => {
+  const products = await Product.find({}).sort({ rating: -1 }).limit(3)
+  res.json(products);
+});
 
 export {
   getProducts,
-  getProductById
+  getProductById,
+  getTopProducts
 }
